@@ -43,11 +43,9 @@ RUN cd superset/assets \
     && npm run build \
     && rm -rf node_modules
 
-#RUN pip3 install superset
-
 COPY artifacts/docker-init.sh .
 COPY artifacts/docker-entrypoint.sh /entrypoint.sh
-#COPY generic superset_config.py
+#Copy generic superset_config.py
 COPY artifacts/superset_config.py /home/superset/superset/superset_config.py
 
 RUN chown -R superset:superset /home/superset
