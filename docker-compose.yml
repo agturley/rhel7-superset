@@ -1,0 +1,76 @@
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+version: '2'
+services:
+  redis:
+    image: redis:3.2
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+    volumes:
+      - /local/storage/redis:/data
+  postgres:
+    image: postgres:10.8
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "testpw"
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: supersetdb
+    ports:
+      - 5432:5432
+    volumes:
+      - /local/storage/psql:/var/lib/postgresql/data
+  superset:
+    image: docker.io/agturley/rhel7-superset:0.28.1
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: testpw
+      POSTGRES_HOST: postgres 
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: supersetdb
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      SUPERSET_ENV: production_ssl
+      SUPERSET_WEB_PORT: 8443
+      SUPERSET_WEB_TIMEOUT: 60
+      SUPERSET_SSL_KEYFILE: ./certs/ss-node.key
+      SUPERSET_SSL_CERTFILE: ./certs/ss-node.pem
+      SUPERSET_LOAD_EXAMPLES: "false"
+      SUPERSET_AUTH_TYPE: AUTH_LDAP
+      SUPERSET_LDAP_SERVER: ldap://ldap.test.com:389
+      SUPERSET_LDAP_ALLOW_SELF_SIGNED: "true"
+      SUPERSET_AUTH_LDAP_SEARCH: 'DC=test,DC=com'
+      SUPERSET_AUTH_LDAP_BIND_USER: 'CN=svc_ldap,CN=Users,DC=test,DC=com'
+      SUPERSET_AUTH_LDAP_BIND_PASSWORD: 'password'
+      SUPERSET_AUTH_USER_REGISTRATION: "true"
+      SUPERSET_AUTH_USER_REGISTRATION_ROLE: "Public"
+      SUPERSET_AUTH_LDAP_UID_FIELD: "sAMAccountName" 
+    ports:
+      - 8443:8443 #for ssl
+      - 8088:8088 #for non-ssl
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      # this is needed to communicate with the postgres and redis services
+      - ./artifacts/certs:/home/superset/certs
+      # this is used to replace the default "superset_config.py" to modify the superset instance
+      - ./artifacts/superset_config.py:/home/superset/superset/superset_config.py
+      
+      
