@@ -20,7 +20,7 @@ flake8-import-order==0.18.1
 flake8-mypy==17.8.0
 flake8-quotes==2.0.1
 flake8==3.7.7
-flask-cors==3.0.7
+flask-cors==3.0.9
 ipdb==0.12
 mypy==0.670
 mysqlclient==1.4.2.post1
