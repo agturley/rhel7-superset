@@ -79,6 +79,6 @@ sqlparse==0.2.4
 urllib3==1.24.3           # via requests, selenium
 vine==1.1.4               # via amqp
 webencodings==0.5.1       # via bleach
-werkzeug==0.14.1          # via flask, flask-jwt-extended
+werkzeug==0.15.3          # via flask, flask-jwt-extended
 wtforms-json==0.3.3
 wtforms==2.2.1            # via flask-wtf, wtforms-json
