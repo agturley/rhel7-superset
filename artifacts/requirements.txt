@@ -9,7 +9,7 @@ amqp==2.3.2               # via kombu
 apispec[yaml]==1.2.0      # via flask-appbuilder
 asn1crypto==0.24.0        # via cryptography
 attrs==19.1.0             # via jsonschema
-babel==2.6.0              # via flask-babel
+babel==2.9.1              # via flask-babel
 billiard==3.5.0.4         # via celery
 bleach==3.0.2
 celery==4.2.0
