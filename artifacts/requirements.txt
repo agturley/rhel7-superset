@@ -50,7 +50,7 @@ markupsafe==1.0           # via jinja2, mako
 marshmallow-enum==1.4.1   # via flask-appbuilder
 marshmallow-sqlalchemy==0.16.2  # via flask-appbuilder
 marshmallow==2.19.2       # via flask-appbuilder, marshmallow-enum, marshmallow-sqlalchemy
-numpy==1.15.2             # via pandas
+numpy==1.22.0             # via pandas
 pandas==0.23.4
 parsedatetime==2.0.0
 pathlib2==2.3.0
